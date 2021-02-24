@@ -14,7 +14,7 @@
 using namespace std;
 
 bool sort_by_cpu(PCB &p1, PCB &p2) {
-	return p1.remaining_cpu_time > p2.remaining_cpu_time;
+	return p1.remaining_cpu_time < p2.remaining_cpu_time;
 }
 
 bool Scheduler_SRTF::time_to_switch_processes(int tick_count, PCB &p) {
@@ -29,7 +29,7 @@ bool Scheduler_SRTF::time_to_switch_processes(int tick_count, PCB &p) {
 void Scheduler_SRTF::sort() {
 	vector<PCB> temp;
 
-	for (unsigned int i = 0; i < ready_q->size(); i++) {
+	while (!ready_q->empty()) {
 		temp.push_back(ready_q->front());
 		ready_q->pop();
 	}
@@ -37,6 +37,6 @@ void Scheduler_SRTF::sort() {
 	std::sort(temp.begin(), temp.end(), sort_by_cpu);
 
 	for (unsigned int i = 0; i < temp.size(); i++) {
-		ready_q->push(temp.at(i));
+		ready_q->push(temp[i]);
 	}
 }
